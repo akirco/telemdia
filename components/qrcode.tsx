@@ -1,4 +1,5 @@
 'use client';
+import blankUrl from '@/public/telegram-logo.svg';
 import { useEffect, useRef } from 'react';
 
 import QRCodeStyling, {
@@ -8,13 +9,21 @@ import QRCodeStyling, {
 const qrOptions: QRCodeStylingOptions = {
   width: 300,
   height: 300,
+  image: blankUrl.src,
+  margin: 10,
+  type: 'svg',
   dotsOptions: {
-    color: '#4267b2',
     type: 'rounded',
   },
+  cornersSquareOptions: {
+    type: 'extra-rounded',
+  },
   imageOptions: {
-    crossOrigin: 'anonymous',
-    margin: 10,
+    imageSize: 0.8,
+    margin: 8,
+  },
+  qrOptions: {
+    errorCorrectionLevel: 'M',
   },
 };
 
@@ -44,11 +53,7 @@ const QrCode = ({ qrstr }: { qrstr: string }) => {
     });
   }, [qrCode, qrstr]);
 
-  return (
-    <div className="m-3 my-5 flex justify-center items-center h-full">
-      <div ref={ref} />
-    </div>
-  );
+  return <div ref={ref} className="qrcode"></div>;
 };
 
 export default QrCode;

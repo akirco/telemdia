@@ -1,2 +1,2 @@
-export const apiId = parseInt(process.env.TELEGRAM_API_ID as string);
-export const apiHash = process.env.TELEGRAM_API_HASH as string;
+export const apiId = 29952734;
+export const apiHash = 'db91b9ea49f381a7a568613bae406a89';

@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.qrcode > svg {
+  @apply rounded-3xl shadow-md;
+}

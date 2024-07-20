@@ -1,45 +1,44 @@
-import { TelegramClient } from 'telegram';
+import { Logger, TelegramClient } from 'telegram';
+import type { QrCodeAuthParams } from 'telegram/client/auth';
 import { StringSession } from 'telegram/sessions';
 import { apiHash, apiId } from './config';
+export class Gram {
+  client: TelegramClient;
+  private session: StringSession;
+  private logger: Logger;
 
-const stringSession = new StringSession(process.env.TELEGRAM_SESSION || '');
-
-const client = new TelegramClient(stringSession, apiId, apiHash, {
-  connectionRetries: 5,
-  useWSS: false,
-  proxy: {
-    ip: '127.0.0.1',
-    port: 1081,
-    MTProxy: false,
-    secret: '',
-    socksType: 5,
-    timeout: 2,
-  },
-});
-
-interface QrCodeAuthParams {
-  qrcodeCallback: (qrCode: { token: Buffer; expires: number }) => Promise<void>;
-  pwdCallback: (hint?: string) => Promise<string>;
-}
-
-const init = async ({ qrcodeCallback, pwdCallback }: QrCodeAuthParams) => {
-  // await client.disconnect();
-
-  await client.connect();
-  const user = await client.signInUserWithQrCode(
-    {
-      apiHash,
-      apiId,
-    },
-    {
-      onError: (err) => {},
-      qrCode: qrcodeCallback,
-      password: pwdCallback,
-    }
-  );
-  if (user) {
+  constructor() {
+    this.logger = new Logger();
+    this.session = new StringSession();
+    this.client = new TelegramClient(this.session, apiId, apiHash, {
+      connectionRetries: 5,
+      useWSS: false,
+      proxy: {
+        ip: '127.0.0.1',
+        port: 1081,
+        MTProxy: false,
+        secret: '',
+        socksType: 5,
+        timeout: 2,
+      },
+    });
+  }
+  async singnIn({ onError, qrCode, password }: QrCodeAuthParams) {
+    await this.client.connect();
+    const user = await this.client.signInUserWithQrCode(
+      {
+        apiHash,
+        apiId,
+      },
+      {
+        onError,
+        qrCode,
+        password,
+      }
+    );
     return user;
   }
-};
+  async signout() {}
+}
 
-export { client, init };
+export default new Gram();
