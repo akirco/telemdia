@@ -9,10 +9,7 @@ export const metadata: Metadata = {
     default: 'tgmedia',
     template: `%s - tgmedia`,
   },
-  description: 'A blog about software development',
-  icons: {
-    icon: '/favicon.ico',
-  },
+  description: 'A social media manager for Telegram',
 };
 
 export const viewport: Viewport = {

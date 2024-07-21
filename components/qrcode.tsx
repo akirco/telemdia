@@ -1,5 +1,5 @@
 'use client';
-import blankUrl from '@/public/telegram-logo.svg';
+import telegramlogo from '@/public/telegram-logo.svg';
 import { useEffect, useRef } from 'react';
 
 import QRCodeStyling, {
@@ -9,7 +9,7 @@ import QRCodeStyling, {
 const qrOptions: QRCodeStylingOptions = {
   width: 300,
   height: 300,
-  image: blankUrl.src,
+  image: telegramlogo.src,
   margin: 10,
   type: 'svg',
   dotsOptions: {

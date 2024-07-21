@@ -1,14 +1,13 @@
-import { Logger, TelegramClient } from 'telegram';
+import { localforage } from '@/libs/utils';
+import { TelegramClient } from 'telegram';
 import type { QrCodeAuthParams } from 'telegram/client/auth';
 import { StringSession } from 'telegram/sessions';
 import { apiHash, apiId } from './config';
-export class Gram {
+export class Telegram {
   client: TelegramClient;
   private session: StringSession;
-  private logger: Logger;
 
   constructor() {
-    this.logger = new Logger();
     this.session = new StringSession();
     this.client = new TelegramClient(this.session, apiId, apiHash, {
       connectionRetries: 5,
@@ -23,7 +22,8 @@ export class Gram {
       },
     });
   }
-  async singnIn({ onError, qrCode, password }: QrCodeAuthParams) {
+
+  async singnInWithQRCode({ onError, qrCode, password }: QrCodeAuthParams) {
     await this.client.connect();
     const user = await this.client.signInUserWithQrCode(
       {
@@ -36,9 +36,20 @@ export class Gram {
         password,
       }
     );
+    await localforage.setItem('session', this.client.session.save());
     return user;
   }
-  async signout() {}
+  async singInWithOTP(phoneNumber: string) {
+    await this.client.connect();
+    await this.client.sendCode(
+      {
+        apiId,
+        apiHash,
+      },
+      phoneNumber,
+      false
+    );
+  }
 }
 
-export default new Gram();
+export default new Telegram();
