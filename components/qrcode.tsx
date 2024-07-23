@@ -39,7 +39,6 @@ const useQRCodeStyling = (
 };
 
 const QrCode = ({ qrstr }: { qrstr: string }) => {
-  console.log('qrstr', qrstr);
   const qrCode = useQRCodeStyling(qrOptions);
   const ref = useRef<any>(null);
 

@@ -1,5 +1,5 @@
 {
-  "name": "tele-media",
+  "name": "tgmedia",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -23,7 +23,9 @@
     "@nextui-org/theme": "2.2.9",
     "@react-aria/ssr": "3.9.4",
     "@react-aria/visually-hidden": "3.8.12",
+    "@vercel/kv": "^2.0.0",
     "clsx": "2.1.1",
+    "crypto-js": "^4.2.0",
     "framer-motion": "~11.3.8",
     "intl-messageformat": "^10.5.14",
     "localforage": "^1.10.0",
@@ -32,12 +34,15 @@
     "qr-code-styling": "1.6.0-rc.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-transition-group": "^4.4.5",
     "telegram": "^2.22.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "20.14.11",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "@types/react-transition-group": "^4.4.10",
     "@typescript-eslint/eslint-plugin": "7.16.1",
     "@typescript-eslint/parser": "7.16.1",
     "autoprefixer": "10.4.19",
