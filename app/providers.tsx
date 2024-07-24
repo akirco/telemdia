@@ -43,8 +43,8 @@ export function Providers({
 }: ProvidersProps) {
   const router = useRouter();
   const [telegram, setTelegram] = useState<Telegram | null>(null);
-  const [authKey, setAuthKey] = useState<StringSession>(new StringSession(''));
-  const telegramRef = React.useRef<Telegram | null>(null);
+  const [authKey, setAuthKey] = useState<string>('');
+  const stringSession = new StringSession(authKey);
 
   // useEffect(() => {
   //   telegramRef.current = new Telegram(
@@ -73,18 +73,16 @@ export function Providers({
   // }, [authKey, ApiContext.apiId, ApiContext.apiHash]);
 
   useEffect(() => {
-    localforage.getItem('session').then((session) => {
+    localforage.getItem<string>('session').then((session) => {
       if (session) {
-        setAuthKey(session as StringSession);
-        setTelegram(null);
+        setAuthKey(session);
       }
     });
     console.log('authKey', authKey);
     console.log('apiID', ApiContext.apiId);
     console.log('apiHash', ApiContext.apiHash);
-
     const telegramInstance = new Telegram(
-      authKey,
+      stringSession,
       +ApiContext.apiId,
       ApiContext.apiHash
     );

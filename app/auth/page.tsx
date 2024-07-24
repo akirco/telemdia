@@ -26,10 +26,9 @@ export default function Auth() {
     if (telegram) {
       telegram
         .singnInWithQRCode({
-          onError: async (e) => {
+          onError: (e) => {
             setError(e.message);
             setStep(1);
-            return true;
           },
           qrCode: async ({ token, expires }) => {
             setQrcode(`tg://login?token=${token.toString('base64')}`);
