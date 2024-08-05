@@ -5,3 +5,11 @@
 .qrcode > svg {
   @apply rounded-3xl shadow-md;
 }
+:root,
+.light {
+  --pattern: url('/bg-pattern-light.png');
+}
+
+.dark {
+  --pattern: url('/bg-pattern-dark.png');
+}

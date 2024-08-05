@@ -1,9 +1,9 @@
 import '@/styles/globals.css';
-import clsx from 'clsx';
 import { Metadata, Viewport } from 'next';
 
 import { Providers } from './providers';
 
+import Heading from '@/components/heading';
 import { getApiCredentials } from '@/libs/gramjs/config';
 
 export const metadata: Metadata = {
@@ -30,16 +30,19 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body className={clsx('min-h-screen bg-background')}>
+      <body className="min-h-screen bg-pattern h-full w-full overflow-hidden">
         <Providers
           themeProps={{
             attribute: 'class',
-            defaultTheme: 'dark',
             children: children,
+            enableSystem: true,
           }}
           ApiContext={{ apiId, apiHash }}
         >
-          <div className="flex flex-col h-screen">{children}</div>
+          <div className="flex flex-col h-screen">
+            <Heading />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

@@ -1,13 +1,14 @@
 'use client';
 import { useTelegramContext } from '@/app/providers';
-import { EyeFilledIcon, EyeSlashFilledIcon } from '@/components/icons';
 import QrCode from '@/components/qrcode';
 import '@/styles/transitions.css';
 import { Input } from '@nextui-org/input';
 import { CircularProgress } from '@nextui-org/progress';
+import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { toast } from 'sonner';
 
 let resolvers = new Map<string, Function>();
 
@@ -40,9 +41,7 @@ export default function Auth() {
             });
           },
         })
-        .then(() => {
-          router.push('/');
-        });
+        .then(() => router.push('/'));
     }
   }, [telegram]);
 
@@ -123,9 +122,7 @@ export default function Auth() {
                   </span>
                 </div>
               </div>
-              {error && (
-                <p className="text-red-500 text-center mt-4">{error}</p>
-              )}
+              {error && toast.error(error)}
             </div>
           )}
           {step === 2 && (
@@ -152,9 +149,9 @@ export default function Auth() {
                     aria-label="toggle password visibility"
                   >
                     {isVisible ? (
-                      <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      <Eye className="text-2xl text-default-400 pointer-events-none" />
                     ) : (
-                      <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                      <EyeOff className="text-2xl text-default-400 pointer-events-none" />
                     )}
                   </button>
                 }

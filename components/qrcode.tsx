@@ -7,8 +7,8 @@ import QRCodeStyling, {
 } from 'qr-code-styling';
 
 const qrOptions: QRCodeStylingOptions = {
-  width: 300,
-  height: 300,
+  width: 250,
+  height: 250,
   image: telegramlogo.src,
   margin: 10,
   type: 'svg',
@@ -52,7 +52,9 @@ const QrCode = ({ qrstr }: { qrstr: string }) => {
     });
   }, [qrCode, qrstr]);
 
-  return <div ref={ref} className="qrcode"></div>;
+  return (
+    <div ref={ref} className="qrcode flex justify-center items-center"></div>
+  );
 };
 
 export default QrCode;

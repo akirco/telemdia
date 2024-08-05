@@ -8,7 +8,6 @@ import * as React from 'react';
 
 import { ApiCredentials } from '@/libs/gramjs/config';
 import Telegram from '@/libs/gramjs/telegram';
-import { localforage } from '@/libs/utils';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { StringSession } from 'telegram/sessions';
 
@@ -44,43 +43,25 @@ export function Providers({
   const router = useRouter();
   const [telegram, setTelegram] = useState<Telegram | null>(null);
   const [authKey, setAuthKey] = useState<string>('');
-  const stringSession = new StringSession(authKey);
-
-  // useEffect(() => {
-  //   telegramRef.current = new Telegram(
-  //     authKey,
-  //     +ApiContext.apiId,
-  //     ApiContext.apiHash
-  //   );
-
-  //   // 从localforage获取会话信息并更新authKey
-  //   localforage.getItem('session').then((session) => {
-  //     if (session) {
-  //       setAuthKey(new StringSession(session as string));
-  //     }
-  //   });
-  // }, [ApiContext.apiId, ApiContext.apiHash]);
-
-  // useEffect(() => {
-  //   // 在authKey更新时重新创建Telegram实例
-  //   if (authKey) {
-  //     telegramRef.current = new Telegram(
-  //       authKey,
-  //       +ApiContext.apiId,
-  //       ApiContext.apiHash
-  //     );
-  //   }
-  // }, [authKey, ApiContext.apiId, ApiContext.apiHash]);
 
   useEffect(() => {
-    localforage.getItem<string>('session').then((session) => {
+    async function fetchSession() {
+      const session = await Telegram.getSession();
       if (session) {
-        setAuthKey(session);
+        router.push('/');
+      } else {
+        router.push('/auth');
       }
-    });
-    console.log('authKey', authKey);
-    console.log('apiID', ApiContext.apiId);
-    console.log('apiHash', ApiContext.apiHash);
+      setAuthKey(session);
+    }
+    fetchSession();
+  }, [authKey]);
+
+  useEffect(() => {
+    const stringSession = new StringSession(authKey);
+    console.log('stringSession', stringSession);
+    console.log(ApiContext.apiId, ApiContext.apiHash);
+
     const telegramInstance = new Telegram(
       stringSession,
       +ApiContext.apiId,
